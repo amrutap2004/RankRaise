@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import ProgressVisualization from './ProgressVisualization';
 import InteractiveInfographic from './InteractiveInfographic';
@@ -9,11 +9,7 @@ const Dashboard = ({ user }) => {
   const [donationAmount, setDonationAmount] = useState('');
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       const response = await axios.get(`/api/dashboard/${user.email}`);
       if (response.data.success) {
@@ -24,7 +20,11 @@ const Dashboard = ({ user }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user.email]);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   const handleDonationSubmit = async (e) => {
     e.preventDefault();

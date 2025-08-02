@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import InteractivePicture from './InteractivePicture';
 
 const ProgressVisualization = ({ userData, totalDonations = 0 }) => {
   const [selectedAchievement, setSelectedAchievement] = useState(null);
